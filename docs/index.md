@@ -35,6 +35,6 @@ The [SVHN](http://ufldl.stanford.edu/housenumbers/) dataset is a real-world imag
 For simplicity, we decided to use the second format from the SVHN dataset, applying different preprocessing techniques to get datasets for comparison and multi-dimensioned validation. We also plan to use the MNIST dataset when training complex models initially.
 
 <p float="left">
-  <img src="./assets/data_set_vis.png" width="44%" />
-  <img src="./assets/Number Distribution.png" width="50%" />
+  <img src="./images/data_set_vis.png" width="44%" />
+  <img src="./images/Number Distribution.png" width="50%" />
 </p>
