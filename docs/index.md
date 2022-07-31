@@ -26,10 +26,11 @@ In this project, we focus on reading digits from house-number signs in street le
 
 ### 3. Data Collection & Preprocessing
 #### 3.1 Data Collection
-We researched two popular digit recognition datase: MNIST and SVHN dataset.
+We researched two popular digit recognition datasets: MNIST and SVHN.
 
-[MNIST](http://yann.lecun.com/exdb/mnist/) database is the largest handwritten digits that is commonly used for training and testing for digit recognition models consisting of gray-scale images of handwritten digits of size 28 * 28, for a total of 784 pixels. Each pixel value is an integer from 0 to 255, inclusive. The dataset is really powerful for training fundamental machine learning models, but regarding the goal of this project it seems too trivial and basic. Therefore, we improve our project and investigate another dataset SVHN.
+The [MNIST](http://yann.lecun.com/exdb/mnist/) dataset contains handwritten digits that is most commonly used for training and testing for digit recognition models. It consists of gray-scale images of handwritten digits of size 28 * 28, for a total of 784 pixels. Each pixel value is an integer from 0 to 255, inclusive. The dataset is really powerful for training fundamental machine learning models, but regarding the goal of this project it seems too trivial and basic. Therefore, we improve our project and investigate another dataset, SVHN.
 
 The [SVHN](http://ufldl.stanford.edu/housenumbers/) dataset is a real-world image dataset that is obtained from house numbers in Google Street View images, containing 73,257 digits for training, 26,032 digits for testing and 531,131 additional less difficult samples. The data is labeled with 10 classes: digit ‘1’ has label 1, ‘9’ has label 9 and ‘0’ has label 10. The dataset contains two formats: the original iamges with character level bounding boxes and MNIST-like 32-by-32 images centered around a single character. The first format is more similar to real world datasets and require as to preprocess the data and extract single digits from the images. The second format is also challenging as each image contains some distracting digits around the main digit of interest, therefore adding difficulty to our training.
 
-For simplicty, we decided to use the second format from the SVHN dataset, applying different preprocessing techniques to get datasets for comparison reasons and multi-dimensioned validation. We also plan to use the MNIST dataset when training complex models initially.
+For simplicity, we decided to use the second format from the SVHN dataset, applying different preprocessing techniques to get datasets for comparison and multi-dimensioned validation. We also plan to use the MNIST dataset when training complex models initially.
+![data_set_vis](/images/data_set_vis.png "Data-Set-Vis")
