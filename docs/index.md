@@ -1,2 +1,3 @@
-## Digit Recognizer Project Final Report
-# Street View Digit Recognition
+# Digit Recognizer Project Final Report
+## Street View Digit Recognition
+\dot
