@@ -33,4 +33,5 @@ The [MNIST](http://yann.lecun.com/exdb/mnist/) dataset contains handwritten digi
 The [SVHN](http://ufldl.stanford.edu/housenumbers/) dataset is a real-world image dataset that is obtained from house numbers in Google Street View images, containing 73,257 digits for training, 26,032 digits for testing and 531,131 additional less difficult samples. The data is labeled with 10 classes: digit ‘1’ has label 1, ‘9’ has label 9 and ‘0’ has label 10. The dataset contains two formats: the original iamges with character level bounding boxes and MNIST-like 32-by-32 images centered around a single character. The first format is more similar to real world datasets and require as to preprocess the data and extract single digits from the images. The second format is also challenging as each image contains some distracting digits around the main digit of interest, therefore adding difficulty to our training.
 
 For simplicity, we decided to use the second format from the SVHN dataset, applying different preprocessing techniques to get datasets for comparison and multi-dimensioned validation. We also plan to use the MNIST dataset when training complex models initially.
-![data_set_vis](/images/data_set_vis.png "Data-Set-Vis")
+
+![data_set_vis](/images/data_set_vis.png "Data-Set-Vis") ![Num_Dist](/images/Number_Distribution.png "Data-Set-Vis")
