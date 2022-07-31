@@ -1,2 +1,4 @@
 theme: jekyll-theme-cayman
 title: Machine Learning - Digit Recognizer
+github:
+  is_project_page: false
