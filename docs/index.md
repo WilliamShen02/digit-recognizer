@@ -77,3 +77,41 @@ The idea is to divide our dataset into clusters either by using a pixel as a fea
 With the dataset divided into clusters, each data point would be assigned a cluster label. For each cluster, we would compare it with true labels (0-9) and pick one label that this cluster best represents. For example, if a cluster has 5 data points whose true labels are [1, 1, 3, 8, 9], 1 would best represent this cluster. We would then mark all data points within a cluster with the most representative true label for this cluster. Then we can compare these predictions with true labels to get an accuracy score.
 
 To improve accuracy, we can specify a higher number of clusters. This works because different digit ‘7’s may exist far apart in the domain space. Thus, telling K-Means to divide our dataset into 10 clusters would result very badly. However, we need to keep in mind that a higher number of clusters could also lead to overfitting.
+
+<p float="left">
+  <img src="./assets/K_Means.png" width="44%" />
+</p>
+
+The result from K Means is not very promising. The accuracy is only 0.28 with K-Means dividing the dataset preprocessed by PCA into 130 clusters. As we attempted different settings for the model by changing the number of clusters, there is not a significant increase in the accuracy value. As seen in the graph, accuracy plateaus at about 0.35 with 500 clusters. This forms a sharp contrast with K-Means’s performance with MNIST, on which it can reach an accuracy of 0.89 with 256 clusters. One explanation for the poor performance of K-Means is that images in the SVHN are too complex to be handled by it. Complex backgrounds and distracting numbers make the domain space of images much larger than that of images from MNIST.
+
+#### 4.2 Random Forest
+
+We employed the random forest model to train the digit image dataset. Random forest model is an ensemble learning method for classification, regression and other tasks that operates by constructing a multitude of decision trees at training time. For classification tasks, the output of the random forest is the class selected by most trees. Given the data with size of N * pixel * pixel * 3 channels, falttening data into N * D to fit in random forest is necessary. We assumed converting 3 color channels to 1 color channel has little impact on training; therefore we converted by taking average of three channels. Here are some examples of combined colored images:
+
+<p float="left">
+  <img src="./assets/random_forest1.png" width="70%" />
+</p>
+
+Each pixel in an image represents one feature in the random forest. Therefore, we flattened the pixel part of the dataset by converting N * pixels * pixels into size of N * D, where D represents size of pixels * pixels. This is the data preprocessing part.
+
+Then, we consider choosing the parameters for the random forest: maximum features (between 0 to 1) and maximum depth. Since each pixel represents one feature in the random forest model, it is supposed that only pixels that includes the digit can be regarded as “important” features. According to the dataset, the size of the digit is roughly 40% that of the entire picture. As we expected, the testing accuracy is the highest when max_feature equals 0.4.
+
+<p float="left">
+  <img src="./assets/random_forest2.png" width="70%" />
+</p>
+
+Therefore, we set max_feature to 0.4 and trained the model with different maximum depths to determine which depth is the most suitable for the training data to reduce both overfitting and underfitting. According to the output test accuracy, the maximum depth should be 18.
+
+<p float="left">
+  <img src="./assets/random_forest3.png" width="70%" />
+</p>
+
+With parameters maximum depth = 18 and maximum features = 0.4, the test accuracy is around 41%. The error may be caused by overfitting in training dataset, which leads to prediction error during testing. Additionally, it is difficult for the random forest model to choose the most important features because a pixel in an image could be very important while, in another image, the pixel at the same position could be much less important, and vice versa.
+
+#### 4.3 Support Vector Machine
+
+We then experimented with SVM on our dataset. Our implementation is done through Scikit Learn’s C-Support Vector Classification(SVC) package. We experimented with both SVC with PCA and SVC without PCA.
+
+Due to the time cost of training SVC models, we initially trained a SVC model with only 3000 records from the complete training set with more than 70,000 records. First, we compared SVC with PCA and SVC without PCA. We selected the best hyperparameters for each by grid searching. Two critical hyperparameters to be tuned are C and Gamma. C determines how much error to be tolerated. A high C typically helps reduce variance. Gamma determines how much curvature the decision boundary has. A low gamma helps reduce variance as well.
+
+With PCA, the best accuracy achieved in a testing set of 1000 records is 0.60 (C = 10, gamma = 10). However, keeping 50 principal components led to a similar accuracy of 0.59. Also, the number of principal components kept influences accuracy massively. Keeping more principal components actually lowers accuracy. For instance, using PCA with n_component = 150 results in an accuracy of 0.41 (C = 5, gamma = 0.01). The figure below on the left is the statistics of SVC model without PCA trained on 3000 records. On the right is the statistics of SVC model with PCA (n_component = 50) trained with 3000 records. Both are tested on 1000 records.
