@@ -48,3 +48,21 @@ For a set of color image with size ![formula](https://render.githubusercontent.c
 &nbsp;&nbsp;1. **Separated Channels**: Transform image to size ![formula](https://render.githubusercontent.com/render/math?math=(N^2,3)) which retaining 3 RGB color channels
 
 &nbsp;&nbsp;2. **Flattened Channels**: Transform image to size ![formula](https://render.githubusercontent.com/render/math?math=(3N^2,)) which flattening color channels
+
+#### 3.3 Data Preprocessing Results
+
+We selected 200 images from the SVHN dataset and completed PCA. The results for separated channels and flattened channels are listed below:
+
+Separated Channels (R, G, B)
+
+<p float="left">
+  <img src="./assets/PCA_channel_1.png" width="30%" />
+  <img src="./assets/PCA_channel_2.png" width="30%" />  
+  <img src="./assets/PCA_channel_3.png" width="30%" />
+</p>
+
+Flattened Channels
+
+<img src="./assets/PCA_flatten_channel.png" width="40%" /></p>
+
+Due to the large number of independent features in the dataset, the principal components are difficult to interpret the important features. Therefore, the classification performance is relatively weak.
