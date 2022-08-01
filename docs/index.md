@@ -3,11 +3,11 @@
 ## Street View Digit Recognition
 
 ### Team Members
-- Yunsong Liu, yliu3390
-- Weilong Shen, wshen61
-- Mingxiao Song, msong300
-- Yukun Song, ysong442
-- Sining Huang, shuang423
+- Yunsong Liu, yliu3390@gatech.edu
+- Weilong Shen, wshen61@gatech.edu
+- Mingxiao Song, msong300@gatech.edu
+- Yukun Song, ysong442@gatech.edu
+- Sining Huang, shuang423@gatech.edu
 
 ### Final Report Video
 [Link To Video](https://youtu.be/Eyu2vRqIvVk)
