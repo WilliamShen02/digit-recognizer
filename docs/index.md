@@ -66,3 +66,15 @@ Flattened Channels
 <img src="./assets/PCA_flatten_channel.png" width="40%" /></p>
 
 Due to the large number of independent features in the dataset, the principal components are difficult to interpret the important features. Therefore, the classification performance is relatively weak.
+
+### 4. Models
+
+#### 4.1 K-Means
+
+It was initially puzzling how we can apply K-Means, an unsupervised learning method, to our problem at hand. After reading a few examples on performing K-Means on MNIST digit classification, we found the approach quite straightforward.
+
+The idea is to divide our dataset into clusters either by using a pixel as a feature or by using features selected by PCA. Because there are 1024 pixels in each color channel, there would be a total of 3072 features if we are to run K Means without preprocessing. Compared to a dataset preprocessed with PCA, it would take K Means significantly more time to compute new cluster centers without preprocessing. With further evaluation, we have found that the original dataset without preprocessing also results in a worse performance accuracy-wise.
+
+With the dataset divided into clusters, each data point would be assigned a cluster label. For each cluster, we would compare it with true labels (0-9) and pick one label that this cluster best represents. For example, if a cluster has 5 data points whose true labels are [1, 1, 3, 8, 9], 1 would best represent this cluster. We would then mark all data points within a cluster with the most representative true label for this cluster. Then we can compare these predictions with true labels to get an accuracy score.
+
+To improve accuracy, we can specify a higher number of clusters. This works because different digit ‘7’s may exist far apart in the domain space. Thus, telling K-Means to divide our dataset into 10 clusters would result very badly. However, we need to keep in mind that a higher number of clusters could also lead to overfitting.
