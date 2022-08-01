@@ -45,6 +45,6 @@ As you can see in the number distribution chart above, ‘1’ is the most commo
 We utlized Principle Component Analysis (PCA) algorithm for dimentionality reduction. PCA transforms a set of correlated variables into a smaller number of uncorrelated variables called principal components while keeping as much of the variability in the original data as possible. The retained variance was set to 0.99 for choosing principle components.
 For a set of color image with size ![formula](https://render.githubusercontent.com/render/math?math=(N,%20N,%203)), we worked in the following approaches:
 
-&nbsp;&nbsp;1. **Separated Channels**: Transform image to size ![formula](https://render.githubusercontent.com/render/math?math=(N^2,%203)) which retaining 3 RGB color channels
+&nbsp;&nbsp;1. **Separated Channels**: Transform image to size ![formula](https://render.githubusercontent.com/render/math?math=(N^2,3)) which retaining 3 RGB color channels
 
 &nbsp;&nbsp;2. **Flattened Channels**: Transform image to size ![formula](https://render.githubusercontent.com/render/math?math=(3N^2,)) which flattening color channels
