@@ -45,8 +45,8 @@ As you can see in the number distribution chart above, ‘1’ is the most commo
 We utlized Principle Component Analysis (PCA) algorithm for dimentionality reduction. PCA transforms a set of correlated variables into a smaller number of uncorrelated variables called principal components while keeping as much of the variability in the original data as possible. The retained variance was set to 0.99 for choosing principle components.
 For a set of color image with size ![formula](https://render.githubusercontent.com/render/math?math=(N,%20N,%203)), we worked in the following approaches:
 
-&nbsp;&nbsp;1. **Separated Channels**: Transform image to size ![formula](https://render.githubusercontent.com/render/math?math=(N^2,3)) which retaining 3 RGB color channels  
-&nbsp;&nbsp;2. **Flattened Channels**: Transform image to size ![formula](https://render.githubusercontent.com/render/math?math=(3N^2,)) which flattening color channels
+&nbsp;&nbsp;&nbsp;&nbsp;1. **Separated Channels**: Transform image to size ![formula](https://render.githubusercontent.com/render/math?math=(N^2,3)) which retaining 3 RGB color channels  
+&nbsp;&nbsp;&nbsp;&nbsp;2. **Flattened Channels**: Transform image to size ![formula](https://render.githubusercontent.com/render/math?math=(3N^2,)) which flattening color channels
 
 #### 3.3 Data Preprocessing Results
 
@@ -184,3 +184,64 @@ The model’s confusion matrix on testing data and its precision, recall, and f1
   <img src="./assets/Picture8.png" width="60%" />
   <img src="./assets/Picture9.png" width="38%" />
 </p>
+
+#### 4.4.2 Self-defined CNN
+
+LeNet is designed for MNIST, a much simpler dataset than SVHN. It has a lot of limitations, for example 1) it contains too few layers to handle the relatively high complexity in the SVHN dataset, and 2) it only takes in grayscale images, which forces us to convert 3-channel images in SVHN to grayscale before training it.
+
+Therefore, we continue our analysis of CNN using another CNN model that are designed specifically for the SVHN dataset. It consists of more layers of Conv2D and, instead of AvgPool2D, MaxPool2D. To deploy the learning potential of this CNN model, we use data augmentation techniques to preprocess the data before training. There are two reasons for the data augmentation process: 1) although our dataset is already big enough, increasing the number of images can help raise the amount of most relevant data in the dataset, helping the model learn the most relevant features. Secondly, there might be limitations on the variations of the dataset and since real world target applications may exist in a variety of conditions, we should account for such situations by training the model also with dataset with larger variations. The main approaches we use are rotation, scaling and shifting.
+
+Before we start training the model, we first run experiments to determine the best learning rate by increasing the learning rate gradually throughout 10 epochs of training. Given the following result, we observe a pattern in the learning rate and loss diagram, specifically the loss falling down dramatically initially but gradually stabilizing in an interval. Therefore, we choose the learning rate of 0.01 that corresponds to the most stabilized loss region.
+
+<p float="left">
+  <img src="./assets/CNN_10.png" width="44%" />
+  <img src="./assets/CNN_11.png" width="44%" /> 
+</p>
+
+Given these assumptions, we run this CNN model with a learning rate of 0.01 and the Adam optimizer on a combination of Conv2D and MaxPool2D layers for 9 epochs. The graph below traces out the convergent trend of the learning accuracy and loss in both our training and validation sets, as the accuracy of both gradually converges to 0.94.
+
+<p float="left">
+  <img src="./assets/CNN_1.png" width="35%" />
+  <img src="./assets/CNN_2.png" width="50%" /> 
+</p>
+
+<p float="left">
+  <img src="./assets/CNN_3.png" width="80%" />
+</p>
+
+The confusion matrix below clearly shows the correlation between the actual label and predicted ones together with a classification report for the precision, recall and f1-score for each class.
+
+<p float="left">
+  <img src="./assets/CNN_4.png" width="48%" />
+  <img src="./assets/CNN_12.png" width="48%" />
+</p>
+
+We also draw the feature maps for a particular image and visualize how the model learns features layer by layer. The main idea behind these graphs is that the CNN model learns deeper features when it goes into more layers. After a several layers, we cannot understand the high level features the model is learning intuitively, but that’s also why such neural network is powerful for tasks such as digit recognition because it can learn features hard to be spotted by human beings.
+
+<p float="left">
+  <img src="./assets/CNN_5.png" width="5%" />
+  <img src="./assets/CNN_6.png" width="20%" />
+  <img src="./assets/CNN_7.png" width="20%" /> 
+  <img src="./assets/CNN_8.png" width="20%" /> 
+  <img src="./assets/CNN_9.png" width="20%" /> 
+</p>
+
+Finally, running the model with our test dataset we get a test accuracy of 94.15% and test loss of 0.2264, which is a good indication that this CNN model performs well on the SVHN dataset.
+
+Noted that for CNN models, we didn’t use the preprocessed dataset with PCA since the linear transformation performed by PCA can be performed just as well by the input layer weights of the neural network.
+
+### 5. Conclusion
+
+With our combined analysis using both unsupervised and supervised algorithms, we get the following results:
+
+<p float="left">
+  <img src="./assets/Picture17.png" width="50%" />
+</p>
+
+As you can see, the best results are achieved by using LeNet and the CNN we designed, indicating that neural network is highly favored by our image dataset. Simple models such as K-Means, random forest and even SVM do not perform as well with our complicated image dataset given many hidden features to be discovered. Though keeping finding better hyperparameters for these models may lead to better results, it still may not outperform deep learning models such as CNN. We also find that PCA does not improve the efficiency of our models a lot. In conclusion, neural networks seem to be the best models we can use for digit recognition in real scenarios. Theoretically, it can be explained by its ability to discover and construct complex features through layers of hidden neurons and weights. Therefore, for future steps, we plan to do more research in deep learning models and employ pretrained transfer learning models to increase training efficiency.
+
+### References
+
+&nbsp;&nbsp;&nbsp;&nbsp;1. M. Jain, G. Kaur, M. P. Quamar and H. Gupta, “Handwritten Digit Recognition Using CNN,” 2021 International Conference on Innovative Practices in Technology and Management (ICIPTM), 2021, pp. 211-215, doi: 10.1109/ICIPTM52218.2021.9388351.  
+&nbsp;&nbsp;&nbsp;&nbsp;1. Netzer, Yuval & Wang, Tao & Coates, Adam & Bissacco, Alessandro & Wu, Bo & Ng, Andrew. (2011). Reading Digits in Natural Images with Unsupervised Feature Learning. NIPS.  
+&nbsp;&nbsp;&nbsp;&nbsp;1. Goodfellow, Ian & Bulatov, Yaroslav & Ibarz, Julian & Arnoud, Sacha & Shet, Vinay. (2013). Multi-digit Number Recognition from Street View Imagery using Deep Convolutional Neural Networks.
