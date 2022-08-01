@@ -243,5 +243,5 @@ As you can see, the best results are achieved by using LeNet and the CNN we desi
 ### References
 
 &nbsp;&nbsp;&nbsp;&nbsp;1. M. Jain, G. Kaur, M. P. Quamar and H. Gupta, “Handwritten Digit Recognition Using CNN,” 2021 International Conference on Innovative Practices in Technology and Management (ICIPTM), 2021, pp. 211-215, doi: 10.1109/ICIPTM52218.2021.9388351.  
-&nbsp;&nbsp;&nbsp;&nbsp;1. Netzer, Yuval & Wang, Tao & Coates, Adam & Bissacco, Alessandro & Wu, Bo & Ng, Andrew. (2011). Reading Digits in Natural Images with Unsupervised Feature Learning. NIPS.  
-&nbsp;&nbsp;&nbsp;&nbsp;1. Goodfellow, Ian & Bulatov, Yaroslav & Ibarz, Julian & Arnoud, Sacha & Shet, Vinay. (2013). Multi-digit Number Recognition from Street View Imagery using Deep Convolutional Neural Networks.
+&nbsp;&nbsp;&nbsp;&nbsp;2. Netzer, Yuval & Wang, Tao & Coates, Adam & Bissacco, Alessandro & Wu, Bo & Ng, Andrew. (2011). Reading Digits in Natural Images with Unsupervised Feature Learning. NIPS.  
+&nbsp;&nbsp;&nbsp;&nbsp;3. Goodfellow, Ian & Bulatov, Yaroslav & Ibarz, Julian & Arnoud, Sacha & Shet, Vinay. (2013). Multi-digit Number Recognition from Street View Imagery using Deep Convolutional Neural Networks.
