@@ -38,3 +38,10 @@ For simplicity, we decided to use the second format from the SVHN dataset, apply
   <img src="./assets/data_set_vis.png" width="44%" />
   <img src="./assets/Number Distribution.png" width="50%" />
 </p>
+
+As you can see in the number distribution chart above, ‘1’ is the most common label in the SVHN dataset. This correponds with Benford’s Law, which says the leading digit is more likely to be small. However, this creates unexpected difficulty in clustering models.
+
+#### 3.2 Data Preprocessing
+We utlized Principle Component Analysis (PCA) algorithm for dimentionality reduction. PCA transforms a set of correlated variables into a smaller number of uncorrelated variables called principal components while keeping as much of the variability in the original data as possible. The retained variance was set to 0.99 for choosing principle components.
+For a set of color image with size $(N,N,3)$, we worked in the following approaches:
+&nbsp;&nbsp;1. **Separated Channels**: Transform image to size $(N^2,3)$ which retaining 3 RGB color channels
