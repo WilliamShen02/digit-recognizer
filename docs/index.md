@@ -63,7 +63,7 @@ Separated Channels (R, G, B)
 
 Flattened Channels
 
-<img src="./assets/PCA_flatten_channel.png" width="40%" /></p>
+<img src="./assets/PCA_flatten_channel.png" width="40%" />
 
 Due to the large number of independent features in the dataset, the principal components are difficult to interpret the important features. Therefore, the classification performance is relatively weak.
 
