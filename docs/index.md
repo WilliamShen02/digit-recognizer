@@ -115,3 +115,72 @@ We then experimented with SVM on our dataset. Our implementation is done through
 Due to the time cost of training SVC models, we initially trained a SVC model with only 3000 records from the complete training set with more than 70,000 records. First, we compared SVC with PCA and SVC without PCA. We selected the best hyperparameters for each by grid searching. Two critical hyperparameters to be tuned are C and Gamma. C determines how much error to be tolerated. A high C typically helps reduce variance. Gamma determines how much curvature the decision boundary has. A low gamma helps reduce variance as well.
 
 With PCA, the best accuracy achieved in a testing set of 1000 records is 0.60 (C = 10, gamma = 10). However, keeping 50 principal components led to a similar accuracy of 0.59. Also, the number of principal components kept influences accuracy massively. Keeping more principal components actually lowers accuracy. For instance, using PCA with n_component = 150 results in an accuracy of 0.41 (C = 5, gamma = 0.01). The figure below on the left is the statistics of SVC model without PCA trained on 3000 records. On the right is the statistics of SVC model with PCA (n_component = 50) trained with 3000 records. Both are tested on 1000 records.
+
+<p align="center">
+  <img src="./assets/SVM_1.jpg" width="40%" />
+  <img src="./assets/SVM_2.jpg" width="40%" />
+</p>
+
+Since using PCA is much more time-efficient, we moved on with SVC with PCA. Next, we tried to fit a model with setting to larger training datasets. We increased the size of training datasets to 6,000 rows and testing datasets to 3,000 rows. This increases accuracy to 0.65. We then increased the training set size to 10,000 rows, which is said to be the recommended maximum training sample size for Scikit Learn’s SVC. The result was quite positive with an accuracy of 0.68. The tuned hyperparameter value are C = 50, gamma = 0.01. As you can see, C is very large, and gamma is very small here, which corresponds with a high accuracy in testing dataset. The figure below on the left is the statistics of SVC model with PCA trained on 6000 records and tested on 3,000 records. On the right is the statistics of SVC model with PCA trained with 10,000 records and tested on 4,000 records.
+
+<p align="center">
+  <img src="./assets/SVM_3.jpg" width="40%" />
+  <img src="./assets/SVM_4.jpg" width="40%" />
+</p>
+
+#### 4.4 Convolutional Neural Network
+
+#### 4.4.1 LeNet
+
+The first CNN that we train, test, and analyze is LeNet. It is proposed by Yann LeCun who developed the MNIST digit recognizer dataset. In the nutshell, LeNet contains three Conv2D layers using Rectified Linear Unit (ReLU) as the activation function, as well as two AvgPool2D layers. It is especially good at recognizing digits and characters. Through implementing it and testing it on the original MNIST dataset, we can reach a validation accuracy of 99.04% under optimal hyperparameters. It was also reported that running LeNet on the kMNIST dataset (which contains Japanese characters rather than digits) yields a testing accuracy of over 95%. In this project, we will use LeNet to train the more complex SVHN dataset and report the highest accuracy that it can reach on optimal hyperparameters.
+
+One important limitation of LeNet is that, being designed for the grayscale MNIST dataset, the network only takes in 32 by 32 grayscale images containing digits just like MNIST. Therefore, before running LeNet, we first transform all images in the training and test datasets from 3-channel RGB images into 1-channel grayscale images. The image below shows one of the images in the test dataset after being transformed into grayscale.
+
+<p float="left">
+  <img src="./assets/Picture1.png" width="15%" />
+</p>
+
+Using the optimal hyperparameters obtained from previous runs on the MNIST dataset, we start a preliminary trial of running the network on the SVHN training dataset (73,257 images), and the resulting accuracy is around 86%, which is not as good as we expect. We further studied the training dataset, and we discovered not only an increased complexity of the dataset but also distracting factors due to cropping digits from the original images taken from real numbers on the houses. For example, below are two images from the training dataset. They are cropped from the same image, and they are basically the same showing both 1 and 9, but the one on the left has label 1 while the one on the right has label 9.
+
+<p float="left">
+  <img src="./assets/Picture2.png" width="15%" />
+  <img src="./assets/Picture3.png" width="15%" />
+</p>
+
+We later decided to add (much) more training data and use the extra training dataset (531,131 images) to train the model so that we can by a large extent reduce the influence of distracting digits. Training a dataset 7 times as big as the original one obviously increases the runtime of training the model to around 10 minutes, but this is not something that we cannot accept. By running the extra training dataset, the model’s testing accuracy reaches around 90%.
+
+Next, we tune the hyperparameters and try to find an optimal set that maximizes the validation accuracy. To reduce the amount of time used to train the network while tuning the network, we only train the network using the first 100,000 images, and train only 5 epochs when tuning the learning rate and the batch size.
+
+The first hyperparameter being tuned is the learning rate. We set the batch size to 128 and train 5 epochs using different learning rates ranging from 0.0001 to 0.1. We plot the testing loss after 5 epochs against the learning rate, and the figures are as follows.
+
+<p float="left">
+  <img src="./assets/Picture4.png" width="43%" />
+  <img src="./assets/Picture5.png" width="46%" />
+</p>
+
+The figure on the left shows the overall trend. We note that the best learning rate is around 0.001, so we zoom in this area, as shown in the figure on the right. We pick the learning rate with the least loss, which is 0.003.
+
+The second hyperparameter being tuned is the batch size. We set the learning rate to 0.003 and train 5 epochs using different batch sizes from 32 to 256. Again, we plot loss against it.
+
+<p float="left">
+  <img src="./assets/Picture6.png" width="60%" />
+</p>
+
+Note that there are fluctuations in the graph due to random initialization, but we find batch size around 100-130 to yield the least loss. Since most processing units have storage capacity in power of two, batch size is best to be a power of 2. Therefore, we pick batch size 128.
+
+The third hyperparameter being tuned is the number of epochs. We set the learning rate to 0.003 and batch size to 128 and train the model only one time for 15 epochs, recording the training and testing loss after each epoch and plot them.
+
+<p float="left">
+  <img src="./assets/Picture7.png" width="60%" />
+</p>
+
+We can see that each training epoch reduces training loss, but the testing loss started to plateau in epochs between 7 and 12, and starts to increase after due to possible overfitting. We therefore pick 10 as the optimal number of epochs so that the model can both learn the pattern and, at the same time, avoid overfitting.
+
+Using learning rate 0.003 and batch size 128, we train the model for 10 epochs on all 531,131 images in the extra dataset. The resulting model has training loss 0.11 and testing loss 0.30, and it is able to predict 23,983 correctly out of 26,032 images in the test dataset, yielding accuracy 92.13%.
+
+The model’s confusion matrix on testing data and its precision, recall, and f1-score metrics are as follows.
+
+<p float="left">
+  <img src="./assets/Picture8.png" width="60%" />
+  <img src="./assets/Picture9.png" width="38%" />
+</p>
